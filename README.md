@@ -1,5 +1,3 @@
-
-```markdown
 # Fighter Agent 🥋
 
 [![Language](https://img.shields.io/badge/Language-Python%203.x-blue.svg)](https://www.python.org/)
@@ -76,4 +74,3 @@ The agent functions using a deterministic state-machine logic:
 
 ---
 *Developed as a University AI Course Project.*
-```
