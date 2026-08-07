@@ -1,48 +1,51 @@
-# AI_Course_Project
-A rule-based Python combat agent developed as part of a university Artificial Intelligence project. It processes real-time fighter and opponent states, manages attack cooldowns, movement, jumping, and dashing, and returns JSON actions for a 2D fighting game.
+
+```markdown
+# Fighter Agent 🥋
 
 [![Language](https://img.shields.io/badge/Language-Python%203.x-blue.svg)](https://www.python.org/)
 [![Project Type](https://img.shields.io/badge/Project-University%20AI-red.svg)](#)
 
-A robust, rule-based autonomous combat agent developed as part of a **University Artificial Intelligence & Expert Systems** course. This agent is designed to compete in the "Zoorkhane" 2D fighting game environment by processing real-time game states and executing optimal combat strategies.
+A rule-based Python combat agent developed as part of a university Artificial Intelligence project. It processes real-time fighter and opponent states, manages attack cooldowns, movement, jumping, and dashing, and returns JSON actions for a 2D fighting game.
 
 ## 📝 Description
-This project implements a Python-based agent that interacts with the Zoorkhane game engine via standard I/O (JSON). It evaluates the relative positions, health, and cooldowns of both the controlled fighter and the opponent to make split-second tactical decisions.
+This project implements an autonomous agent designed to compete in the **Zoorkhane** 2D fighting environment. Developed for a **University Artificial Intelligence & Expert Systems** course, the agent acts as an expert system, evaluating game frames via standard I/O (JSON) to execute tactical combat maneuvers in real-time.
 
 ## 🚀 Key Features
-- **JSON Standard Communication:** Seamless integration with the game runner using `stdin` and `stdout`.
-- **Dynamic Proximity Logic:** Automated hitbox detection based on a 180-unit distance threshold (per project specs).
-- **Combat Resource Management:** Tracks Light and Heavy attack cooldowns to maximize damage output.
-- **Adaptive Movement:** Features automatic approaching, retreating (spacing), dashing, and jumping.
-- **Persistent State:** Supports `saved_data` to maintain context between game frames.
+- **JSON Communication:** Robust integration using `stdin` for state perception and `stdout` for action execution.
+- **Hitbox Logic:** Precise movement control based on a **180-unit** proximity threshold.
+- **Resource Management:** Real-time tracking of Light/Heavy attack and Dash cooldowns.
+- **Adaptive Spacing:** Automatically switches between "Engage" (approaching) and "Defensive" (retreating) modes.
+- **Stateless/Persistent Support:** Utilizes `saved_data` to track information across frames.
 
 ## 🧠 Decision Policy
-The agent follows a deterministic expert system logic:
-1. **Distance Calculation:** Calculates $\Delta X$ and $\Delta Y$ between fighters.
-2. **Vicinity Check:** Determines if the opponent is within the effective attack range (< 180 units).
-3. **Attack Selection:** Priority is given to the strongest available attack (Heavy > Light) if cooldowns permit.
-4. **Strategic Maneuvering:** 
-   - **Engage:** Moves toward the opponent if an attack is ready but out of range.
-   - **Spacing:** Retreats and uses **Dash** if attacks are on cooldown to avoid taking damage.
-5. **State Maintenance:** Updates and passes `saved_data` to ensure continuity.
+The agent functions using a deterministic state-machine logic:
+1. **Perception:** Calculates Euclidean distance and relative positioning ($\Delta X, \Delta Y$).
+2. **Vicinity Analysis:** Identifies if the opponent is within the striking range (Distance < 180).
+3. **Attack Selection:** Prioritizes the strongest available move (Heavy > Light) only when not already in an attacking state.
+4. **Tactical Movement:**
+   - **Engage:** If an attack is ready but the target is far, the agent moves toward the opponent.
+   - **Spacing/Escape:** If attacks are on cooldown, the agent retreats and utilizes **Dash** for rapid repositioning.
+   - **Constant Pressure:** Jump actions are triggered to maintain unpredictable movement.
 
 ## 📥 Input & 📤 Output Format
 
-### Input JSON (Sample)
+### Input State (Sample)
 ```json
 {
   "fighter": {
-"x": 100, "y": 200, "health": 100,
-"attacking": false, "attack_cooldown": [0, 0],
-"jump": false, "dash_cooldown": 0
+    "x": 100, "y": 200, "health": 100,
+    "attacking": false, "attack_cooldown": [0, 0],
+    "jump": false, "dash_cooldown": 0
   },
   "opponent": {
-"x": 250, "y": 200, "health": 100, "attacking": false
+    "x": 250, "y": 200, "health": 100, "attacking": false
   },
   "saved_data": {}
 }
-Output JSON (Sample)
-json
+```
+
+### Output Action (Sample)
+```json
 {
   "move": "left",
   "attack": 2,
@@ -51,18 +54,26 @@ json
   "debug": "Target in range, executing Heavy Attack",
   "saved_data": { ... }
 }
-🛠 Installation & Usage
-Ensure you have Python 3.x installed.
-Clone the repository:
-bash
-   git clone https://github.com/your-username/zoorkhane-agent.git
-   cd zoorkhane-agent
-   
-Run the agent (typically handled by the game runner):
-bash
+```
+
+## 🛠 Installation & Usage
+
+1. **Prerequisites:** Ensure you have **Python 3.x** installed.
+2. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/AI_Course_Project.git
+   cd AI_Course_Project
+   ```
+3. **Run the agent:**
+   The agent is designed to be called by the game runner, but you can test it manually:
+   ```bash
    python agent.py
-   
-📂 Project Structure
-agent.py: Core logic, JSON parser, and decision-making functions.
-Zoorkhane.pdf: Official project specifications and game environment rules.
-Developed for the University AI Course Project.
+   ```
+
+## 📂 Project Structure
+- `agent.py`: The core Python script containing the state parsing and decision logic.
+- `Zoorkhane.pdf`: Official documentation specifying Hitbox rules, I/O contracts, and environment constraints.
+
+---
+*Developed as a University AI Course Project.*
+```
